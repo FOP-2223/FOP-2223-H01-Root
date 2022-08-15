@@ -3,19 +3,13 @@ import org.sourcegrade.submitter.submit
 plugins {
     java
     application
-    id("idea")
     id("org.sourcegrade.style") version "1.3.0"
     id("org.sourcegrade.submitter") version "0.4.0"
-
 }
-
-idea.module.isDownloadSources = true
-idea.module.isDownloadJavadoc = true
 
 version = "0.1.0-SNAPSHOT"
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
