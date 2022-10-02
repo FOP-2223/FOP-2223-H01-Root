@@ -49,12 +49,6 @@ public class Checkers {
      */
     private Robot blackStone0, blackStone1, blackStone2, blackStone3, blackStone4;
 
-    public static void main(String[] args) {
-        Checkers checkers = new Checkers();
-        checkers.initGame();
-        checkers.runGame();
-    }
-
     /**
      * Runs the initialization of the game.
      * The initialization of the game consists of the initialization of the world and all stones.
