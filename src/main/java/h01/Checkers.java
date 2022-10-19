@@ -67,8 +67,8 @@ public class Checkers {
     public void runGame() {
         World.setVisible(true);
         while (isRunning()) {
-            doBlackTeamAction();
-            doWhiteTeamAction();
+            doBlackTeamActions();
+            doWhiteTeamActions();
             updateGameState();
         }
         System.out.printf("Final State: %s%n", gameState);
@@ -104,7 +104,7 @@ public class Checkers {
     /**
      * Runs the action of the black team.
      */
-    public void doBlackTeamAction() {
+    public void doBlackTeamActions() {
         Robot selectedRobot = null;
         while (selectedRobot == null || !selectedRobot.hasAnyCoins()) {
             int selectedNumber = ThreadLocalRandom.current().nextInt(5);
@@ -156,7 +156,7 @@ public class Checkers {
     /**
      * Runs the action of the white team.
      */
-    public void doWhiteTeamAction() {
+    public void doWhiteTeamActions() {
         int x = whiteStone.getX();
         int y = whiteStone.getY();
         Robot blackStone = null;
