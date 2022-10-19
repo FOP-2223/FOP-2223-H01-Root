@@ -7,6 +7,7 @@ import fopbot.World;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import static fopbot.RobotFamily.SQUARE_BLACK;
 import static org.tudalgo.algoutils.student.io.PropertyUtils.getIntProperty;
 
 public class Checkers {
@@ -94,11 +95,11 @@ public class Checkers {
      * Runs the initialization of all black stones.
      */
     public void initBlackStones() {
-        blackStone0 = createStone(RobotFamily.SQUARE_BLACK);
-        blackStone1 = createStone(RobotFamily.SQUARE_BLACK);
-        blackStone2 = createStone(RobotFamily.SQUARE_BLACK);
-        blackStone3 = createStone(RobotFamily.SQUARE_BLACK);
-        blackStone4 = createStone(RobotFamily.SQUARE_BLACK);
+        blackStone0 = createStone(SQUARE_BLACK);
+        blackStone1 = createStone(SQUARE_BLACK);
+        blackStone2 = createStone(SQUARE_BLACK);
+        blackStone3 = createStone(SQUARE_BLACK);
+        blackStone4 = createStone(SQUARE_BLACK);
     }
 
     /**
@@ -218,9 +219,9 @@ public class Checkers {
         do {
             x = getRandom().nextInt(NUMBER_OF_COLUMNS);
             y = getRandom().nextInt(NUMBER_OF_ROWS);
-        } while ((x + y) % 2 == 0 || (family == RobotFamily.SQUARE_BLACK && x == whiteStone.getX() && y == whiteStone.getY()));
+        } while ((x + y) % 2 == 0 || (family == SQUARE_BLACK && x == whiteStone.getX() && y == whiteStone.getY()));
         Direction direction = Direction.values()[getRandom().nextInt(4)];
-        int coins = getRandom().nextInt(MIN_NUMBER_OF_COINS, MAX_NUMBER_OF_COINS + 1);
+        int coins = family == SQUARE_BLACK ? getRandom().nextInt(MIN_NUMBER_OF_COINS, MAX_NUMBER_OF_COINS + 1) : 0;
         return new Robot(x, y, direction, coins, family);
     }
 
