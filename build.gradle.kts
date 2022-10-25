@@ -23,6 +23,7 @@ jagr {
             rubricProviderName.set("h01.H01_RubricProvider")
             configureDependencies {
                 implementation(libs.algoutils.tutor)
+                implementation(libs.junit.pioneer)
             }
         }
         val graderPrivate by creating {
@@ -36,7 +37,7 @@ dependencies {
     implementation(libs.annotations)
     implementation(libs.algoutils.student)
     testImplementation(libs.junit.core)
-    implementation("org.tudalgo:fopbot:0.4.0")
+    implementation(libs.fopbot)
 }
 
 application {
