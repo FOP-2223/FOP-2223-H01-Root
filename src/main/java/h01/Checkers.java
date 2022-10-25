@@ -107,7 +107,7 @@ public class Checkers {
      */
     public void doBlackTeamActions() {
         Robot selectedRobot = null;
-        while (selectedRobot == null || !selectedRobot.hasAnyCoins()) {
+        while (selectedRobot == null || !selectedRobot.hasAnyCoins() || selectedRobot.isTurnedOff()) {
             int selectedNumber = ThreadLocalRandom.current().nextInt(5);
             selectedRobot = getBlackStone(selectedNumber);
         }
