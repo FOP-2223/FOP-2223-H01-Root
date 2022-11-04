@@ -15,22 +15,22 @@ public class Checkers {
     /**
      * The number of rows in the game board.
      */
-    public static final int NUMBER_OF_ROWS = getIntProperty("checkers.properties", "NUMBER_OF_ROWS");
+    public static int NUMBER_OF_ROWS = getIntProperty("checkers.properties", "NUMBER_OF_ROWS");
 
     /**
      * The number of columns in the game board.
      */
-    public static final int NUMBER_OF_COLUMNS = getIntProperty("checkers.properties", "NUMBER_OF_COLUMNS");
+    public static int NUMBER_OF_COLUMNS = getIntProperty("checkers.properties", "NUMBER_OF_COLUMNS");
 
     /**
      * The minimum initial number of coins for a black stone.
      */
-    public static final int MIN_NUMBER_OF_COINS = getIntProperty("checkers.properties", "MIN_NUMBER_OF_COINS");
+    public static int MIN_NUMBER_OF_COINS = getIntProperty("checkers.properties", "MIN_NUMBER_OF_COINS");
 
     /**
      * The maximum initial number of coins for a black stone.
      */
-    public static final int MAX_NUMBER_OF_COINS = getIntProperty("checkers.properties", "MAX_NUMBER_OF_COINS");
+    public static int MAX_NUMBER_OF_COINS = getIntProperty("checkers.properties", "MAX_NUMBER_OF_COINS");
 
     /**
      * The current state of the game.
@@ -274,7 +274,7 @@ public class Checkers {
     private Robot getBlackStone(int x, int y) {
         for (int i = 0; i < 5; i++) {
             Robot blackStone = getBlackStone(i);
-            if (blackStone.isTurnedOn() && blackStone.isTurnedOn() && blackStone.getX() == x && blackStone.getY() == y) {
+            if (blackStone.isTurnedOn() && blackStone.getX() == x && blackStone.getY() == y) {
                 return blackStone;
             }
         }
