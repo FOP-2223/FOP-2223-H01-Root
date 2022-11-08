@@ -1,18 +1,22 @@
 package h01;
 
 import org.sourcegrade.jagr.api.rubric.Criterion;
-import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
+import org.sourcegrade.jagr.api.rubric.Grader;
 import org.sourcegrade.jagr.api.rubric.Rubric;
 import org.sourcegrade.jagr.api.rubric.RubricProvider;
 import org.sourcegrade.jagr.api.testing.RubricConfiguration;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import static h01.CheckersTest.LINK;
-import static java.util.Arrays.stream;
 import static org.sourcegrade.jagr.api.rubric.Grader.testAwareBuilder;
-import static org.sourcegrade.jagr.api.rubric.JUnitTestRef.and;
 import static org.sourcegrade.jagr.api.rubric.JUnitTestRef.ofMethod;
 import static org.tudalgo.algoutils.tutor.general.match.BasicStringMatchers.identical;
 
 public class H01_RubricProvider implements RubricProvider {
+
+    private static final Set<String> alreadyShown = new HashSet<>();
 
     public static final Rubric RUBRIC = Rubric.builder()
         .title("H01 | Little Checkers")
@@ -133,12 +137,12 @@ public class H01_RubricProvider implements RubricProvider {
                     criterion(
                         "Die Aktionen des weißen Steins sind korrekt!",
                         "testWhiteStoneNoAction",
+                        "testWhiteStoneComplex",
+                        "testWhiteStoneNoJump",
                         "testWhiteStoneHitWithoutTurnedOffRobots",
                         "testWhiteStoneHitWithTurnedOffRobots",
                         "testWhiteStonePositionAfterHit",
-                        "testWhiteStoneMultipleHits",
-                        "testWhiteStoneComplex",
-                        "testWhiteStoneNoJump"
+                        "testWhiteStoneMultipleHits"
                     )
                 )
                 .build()
@@ -157,32 +161,32 @@ public class H01_RubricProvider implements RubricProvider {
                     ),
                     criterion(
                         "Die Hauptschleife wird korrekt beendet.",
-
+                        "testTeamBlackWinWhenNotAllOn",
                         "testTeamWhiteWin",
-                        "testTeamBlackWin",
-                        "testTeamBlackWinWhenNotAllOn"
+                        "testTeamBlackWin"
                     )
                 )
                 .build()
         )
         .build();
 
+
     private static Criterion criterion(String description, String... methods) {
-        var builder = Criterion.builder();
-        builder.shortDescription(description);
-        if (methods.length > 1) {
-            var refs = stream(methods).map(n -> ofMethod(LINK.getMethod(identical(n)).link())).toArray(JUnitTestRef[]::new);
-            builder.grader(
-                testAwareBuilder()
-                    .requirePass(and(refs))
-                    .pointsPassedMax().build()
-            );
-        } else if (methods.length == 1) {
-            builder.grader(
-                testAwareBuilder().requirePass(ofMethod(LINK.getMethod(identical(methods[0])).link())).pointsPassedMax()
-                    .build());
+        var criterionBuilder = Criterion.builder();
+        criterionBuilder.shortDescription(description);
+        var shown = testAwareBuilder();
+        var notShown = testAwareBuilder();
+        for (var method : methods) {
+            var link = ofMethod(LINK.getMethod(identical(method)).link());
+            if (alreadyShown.contains(method)) {
+                shown.requirePass(link);
+            } else {
+                notShown.requirePass(link);
+            }
+            alreadyShown.add(method);
         }
-        return builder.build();
+        shown.commentIfFailed("see above");
+        return criterionBuilder.grader(Grader.descendingPriority(notShown.build(), shown.build())).build();
     }
 
     @Override
