@@ -41,7 +41,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("h01.Checkers")
+    mainClass.set("h01.Main")
 }
 
 tasks {
