@@ -1,14 +1,13 @@
 package h01;
 
 import org.sourcegrade.jagr.api.rubric.Criterion;
-import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
 import org.sourcegrade.jagr.api.rubric.Rubric;
 import org.sourcegrade.jagr.api.rubric.RubricProvider;
 import org.sourcegrade.jagr.api.testing.RubricConfiguration;
+
 import static h01.CheckersTest.LINK;
 import static java.util.Arrays.stream;
 import static org.sourcegrade.jagr.api.rubric.Grader.testAwareBuilder;
-import static org.sourcegrade.jagr.api.rubric.JUnitTestRef.and;
 import static org.sourcegrade.jagr.api.rubric.JUnitTestRef.ofMethod;
 import static org.tudalgo.algoutils.tutor.general.match.BasicStringMatchers.identical;
 
@@ -170,18 +169,9 @@ public class H01_RubricProvider implements RubricProvider {
     private static Criterion criterion(String description, String... methods) {
         var builder = Criterion.builder();
         builder.shortDescription(description);
-        if (methods.length > 1) {
-            var refs = stream(methods).map(n -> ofMethod(LINK.getMethod(identical(n)).link())).toArray(JUnitTestRef[]::new);
-            builder.grader(
-                testAwareBuilder()
-                    .requirePass(and(refs))
-                    .pointsPassedMax().build()
-            );
-        } else if (methods.length == 1) {
-            builder.grader(
-                testAwareBuilder().requirePass(ofMethod(LINK.getMethod(identical(methods[0])).link())).pointsPassedMax()
-                    .build());
-        }
+        var testBuilder = testAwareBuilder().pointsPassedMax();
+        stream(methods).map(n -> ofMethod(LINK.getMethod(identical(n)).link())).forEach(testBuilder::requirePass);
+        builder.grader(testBuilder.build());
         return builder.build();
     }
 
